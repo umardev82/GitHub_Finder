@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./output.css" rel="stylesheet" />
+    <!-- FAVICON LINK -->
+    <link
+      rel="shortcut icon"
+      href="./images/favicon-32x32.png"
+      type="image/x-icon"
+    />
+    <!-- TOASTIFY CDN -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/toastify-js"
+    ></script>
+    <!-- CSS FILE LINK -->
+    <link rel="stylesheet" href="style.css" />
+    <title>GitHub Finder</title>
+    <!-- INTERNAL CSS -->
+    <style>
+      @font-face {
+        font-family: Robote;
+        src: url(fonts/SpaceMono-Bold.ttf);
+      }
+      body {
+        font-family: Robote;
+        background-color: #f6f8ff;
+      }
+      /* Dark Light Theme */
+      .darkThemeBtn * {
+        transition: all 0.3s;
+      }
+
+      .darkThemeBtn input {
+        width: 0;
+        height: 0;
+        visibility: hidden;
+      }
+
+      .darkThemeBtn label {
+        /* border: 1px solid #efefef; */
+        border-radius: 10px;
+        height: 38px;
+        width: 38px;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        cursor: pointer;
+      }
+
+      .darkThemeBtn label:active {
+        border-radius: 5px;
+      }
+
+      .darkThemeBtn label svg {
+        position: absolute;
+        width: 16px;
+        transition: 0.3s;
+        z-index: 1;
+        fill: #000;
+      }
+
+      .darkThemeBtn label svg.sun {
+        width: 20px;
+        opacity: 0;
+        fill: #fff;
+      }
+
+      .darkThemeBtn label svg.moon {
+        opacity: 1;
+      }
+
+      .darkThemeBtn input:checked + label {
+        background: #008080;
+      }
+
+      .darkThemeBtn input:checked + label svg.sun {
+        opacity: 1;
+      }
+
+      .darkThemeBtn input:checked + label svg.moon {
+        opacity: 0;
+      }
+
+      .darkThemeBtn input:checked ~ span {
+        background-color: #16174b;
+      }
+      /* Dark Light Theme */
+      .grid1 {
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      }
+      .disabled {
+        color: #999;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+      #typingtext {
+        font-size: 1.8rem;
+      }
+    </style>
+  </head>
+  <body class="w-full min-h-screen flex flex-col justify-center">
+    <div
+      class="w-full min-h-screen px-[1rem] md:py-[0.4rem] dark:bg-[#1c2321] py-4"
+    >
+      <div class="w-full h-auto flex justify-center mb-5">
+        <div class="max-w-[50rem] h-auto grid grid-cols-2 container">
+          <div class="w-full h-auto col-span-2 sm:col-span-1">
+            <div
+              class="w-full h-full flex items-center justify-center sm:justify-start"
+            >
+              <div
+                id="typingtext"
+                class="font-bold hover:animate-pulse cursor-pointer dark:text-white"
+              >
+                DevFinder
+              </div>
+            </div>
+          </div>
+          <div class="w-full h-auto col-span-2 sm:col-span-1">
+            <div
+              id="darklight"
+              class="w-full h-full flex items-center justify-center sm:justify-end gap-2 cursor-pointer"
+            >
+              <div
+                id="dark1"
+                class="text-gray-500 dark:text-white text-[1.1rem] tracking-widest darklt"
+              >
+                DARK
+              </div>
+              <div
+                id="dark2"
+                class="text-gray-500 dark:text-white hidden text-[1.1rem] tracking-widest darklt"
+              >
+                LIGHT
+              </div>
+              <!-- Dark Light Theme Starts-->
+              <div>
+                <div class="my-body text-gray-300">
+                  <div class="darkThemeBtn flex items-center justify-center">
+                    <input id="darkmode-toggle" type="checkbox" />
+                    <label id="darkmode-toggle1" for="darkmode-toggle">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512"
+                        class="sun"
+                      >
+                        <g transform="translate(0 512) scale(.1 -.1)">
+                          <path
+                            d="m2513 5105c-59-25-63-46-63-320 0-266 4-288 54-315 33-17 79-17 112 0 50 27 54 49 54 315 0 275-4 295-65 321-42 17-51 17-92-1z"
+                          ></path>
+                          <path
+                            d="m754 4366c-28-28-34-41-34-77 0-42 3-45 188-231l187-188h47c39 0 52 5 77 31 26 25 31 38 31 77v47l-188 187c-186 185-189 188-231 188-36 0-49-6-77-34z"
+                          ></path>
+                          <path
+                            d="m4058 4212-188-187v-47c0-39 5-52 31-77 25-26 38-31 77-31h46l188 188c186 186 188 188 188 231 0 36-6 49-34 77s-41 34-77 34c-42 0-45-3-231-188z"
+                          ></path>
+                          <path
+                            d="m2440 4224c-453-50-760-192-1056-488-264-264-419-570-475-936-17-109-17-371 0-480 56-366 211-672 475-936s570-419 936-475c109-17 371-17 480 0 366 56 672 211 936 475 225 225 358 455 438 758 38 143 50 249 50 418 0 219-30 388-104 590-137 372-450 719-813 901-143 72-315 128-474 154-89 15-329 26-393 19zm335-235c305-46 582-186 805-409 567-567 567-1473 0-2040s-1473-567-2040 0-567 1473 0 2040c328 328 777 476 1235 409z"
+                          ></path>
+                          <path
+                            d="m54 2651c-20-12-37-34-44-55-16-49 2-101 44-127 28-17 52-19 279-19 268 0 289 4 317 54 17 33 17 79 0 112-28 50-49 54-317 54-227 0-251-2-279-19z"
+                          ></path>
+                          <path
+                            d="m4512 2657c-73-41-73-155 0-193 21-11 81-14 275-14 227 0 251 2 279 19 42 26 60 78 44 127-7 21-24 43-44 55-28 17-52 19-281 19-181-1-256-4-273-13z"
+                          ></path>
+                          <path
+                            d="m908 1062c-185-186-188-189-188-231 0-36 6-49 34-77s41-34 77-34c43 0 45 2 231 188l188 188v46c0 39-5 52-31 77-25 26-38 31-77 31h-47l-187-188z"
+                          ></path>
+                          <path
+                            d="m3901 1219c-26-25-31-38-31-77v-47l188-187c186-185 189-188 231-188 36 0 49 6 77 34s34 41 34 77c0 43-2 45-188 231l-188 188h-46c-39 0-52-5-77-31z"
+                          ></path>
+                          <path
+                            d="m2540 663c-87-28-90-37-90-330 0-227 2-251 19-279 40-66 142-66 182 0 17 28 19 52 19 279 0 266-4 291-52 314-32 16-60 22-78 16z"
+                          ></path>
+                        </g>
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512"
+                        class="moon"
+                      >
+                        <g transform="translate(0 512) scale(.1 -.1)">
+                          <path
+                            d="m2090 5105c-248-51-443-118-659-226-514-256-909-652-1161-1163-94-191-139-311-185-490-127-500-110-999 51-1468 133-389 331-706 624-998 403-404 875-642 1460-736 147-24 529-24 693 0 539 78 981 283 1390 644 362 319 647 793 766 1270 46 186 56 256 42 299-22 71-80 116-151 117-73 1-104-19-181-116-307-390-733-627-1233-689-119-14-385-7-501 15-582 106-1066 469-1321 991-120 246-171 452-181 731-21 586 230 1126 695 1493 96 75 117 107 117 177 0 85-67 155-153 160-26 1-76-3-112-11zm110-149c0-2-26-23-57-47-81-60-254-230-325-318-213-264-353-573-415-916-22-126-25-508-5-625 62-346 195-651 395-910 72-93 228-250 327-329 266-213 571-349 930-413 117-20 499-17 625 5 343 62 652 202 916 415 88 71 258 244 318 325 24 32 46 56 48 54s-8-60-23-128c-127-606-501-1155-1027-1505-780-521-1798-535-2602-36-295 183-594 482-777 777-335 539-445 1180-308 1795 138 621 515 1158 1060 1511 136 88 374 201 530 253 148 49 390 106 390 92z"
+                          ></path>
+                        </g>
+                      </svg>
+                    </label>
+                    <span class="fake-body"></span>
+                  </div>
+                </div>
+              </div>
+              <!-- Dark Light Theme Ends-->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full h-auto flex justify-center mb-4">
+        <div
+          id="firstgrid"
+          class="max-w-[50rem] h-auto grid grid-cols-2 container bg-white px-[1rem] py-[0.6rem] rounded-xl grid1 gap-2 dark:bg-[#36454f]"
+        >
+          <div class="w-full h-auto col-span-2 md:col-span-1">
+            <div class="w-full h-full flex items-center justify-center">
+              <div id="inputfld" class="w-full h-auto relative">
+                <input
+                  id="inp1"
+                  class="dark:text-white dark:bg-[#36454f] w-full h-[3rem] px-[3.4rem] rounded-md outline-blue-50 md:text-[1.2rem] font-sans text-black border-none focus:outline-none md:bg-white"
+                  type="text"
+                  placeholder="Search GitHub username...."
+                />
+                <i
+                  class="fa-solid fa-magnifying-glass absolute top-3 left-3 text-2xl text-blue-500 dark:text-[#008080]"
+                ></i>
+              </div>
+            </div>
+          </div>
+          <div class="w-full h-auto col-span-2 md:col-span-1">
+            <div
+              class="w-full h-full flex items-center justify-center md:justify-end"
+            >
+              <div class="w-full md:w-auto">
+                <button
+                  id="button"
+                  class="dark:bg-[#008080] dark:hover:bg-black dark:text-white w-full h-auto bg-blue-600 text-white px-[2rem] py-[0.6rem] font-sans rounded-xl text-lg hover:bg-blue-500"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full h-auto flex justify-center">
+        <div
+          id="gridsecond"
+          class="max-w-[50rem] h-auto grid grid-cols-3 container bg-white px-[2rem] py-[2.3rem] rounded-xl grid1 gap-5 md:gap-0 dark:bg-[#36454f]"
+        >
+          <div class="w-full h-auto col-span-3 md:col-span-1">
+            <div class="w-full h-full flex items-start justify-center shrink-0">
+              <div
+                id="circle"
+                class="w-[9rem] h-[9rem] bg-black rounded-full container flex shrink-0 overflow-hidden cursor-pointer"
+              >
+                <img
+                  class="w-full object-cover"
+                  src="https://play-lh.googleusercontent.com/PCpXdqvUWfCW1mXhH1Y_98yBpgsWxuTSTofy3NGMo9yBTATDyzVkqU580bfSln50bFU"
+                  alt="GitHub"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            id="info"
+            class="w-full h-auto col-span-3 md:col-span-2 px-[1.2rem] md:px-[0rem]"
+          >
+            <div
+              class="w-full h-auto flex items-center justify-center md:justify-between flex-wrap"
+            >
+              <div
+                class="text-black text-[1.9rem] w-full md:w-auto text-center dark:text-white"
+              >
+                The Octocat
+              </div>
+              <div
+                class="text-gray-400 text-[1rem] w-full md:w-auto text-center dark:text-gray-300"
+              >
+                Joined 25 January 2011
+              </div>
+            </div>
+            <div
+              class="w-full h-auto flex items-center justify-center md:justify-start mb-[2rem]"
+            >
+              <a
+                class="text-blue-600 text-[1.1rem] dark:text-[#008080]"
+                href="#"
+              >
+                @Octocat
+              </a>
+            </div>
+            <div
+              class="w-full h-auto flex items-center justify-center md:justify-start mb-[2.5rem]"
+            >
+              <div
+                class="opacity-50 text-[1.1rem] dark:text-gray-300 dark:opacity-100"
+              >
+                Not Available
+              </div>
+            </div>
+            <div
+              class="w-full h-auto flex flex-col md:flex-row gap-6 md:gap-0 items-start md:items-center justify-center md:justify-between bg-blue-50 px-[2rem] py-[1rem] rounded-md mb-[2rem] dark:bg-[#eaeaea]"
+            >
+              <div class="flex flex-col items-start">
+                <div class="opacity-70 text-[1.1rem]">Repos</div>
+                <div class="text-[1.2rem]">8</div>
+              </div>
+              <div class="flex flex-col items-start">
+                <div class="opacity-70 text-[1.1rem]">Followers</div>
+                <div class="text-[1.2rem]">6097</div>
+              </div>
+              <div class="flex flex-col items-start">
+                <div class="opacity-70 text-[1.1rem]">Following</div>
+                <div class="text-[1.2rem]">9</div>
+              </div>
+            </div>
+            <div
+              class="flex flex-col md:flex-row items-center gap-[1rem] md:gap-[4rem] flex-wrap md:flex-nowrap"
+            >
+              <div class="w-full h-auto flex flex-col items-start gap-3">
+                <div
+                  class="flex flex-row items-center justify-start gap-5 md:gap-4"
+                >
+                  <div>
+                    <i
+                      class="fa-solid fa-location-dot text-gray-600 dark:text-gray-400 text-[1.3rem]"
+                    ></i>
+                  </div>
+                  <div
+                    class="text-gray-500 dark:text-gray-300 hover:text-black dark:hover:text-white"
+                  >
+                    Location
+                  </div>
+                </div>
+                <div class="flex flex-row items-center justify-start gap-4">
+                  <div>
+                    <i
+                      class="fa-solid fa-link text-gray-600 dark:text-gray-400 text-[1.3rem]"
+                    ></i>
+                  </div>
+                  <div
+                    class="text-gray-500 dark:text-gray-300 hover:text-black cursor-pointer dark:hover:text-white dark:cursor-pointer"
+                  >
+                    Website
+                  </div>
+                </div>
+              </div>
+              <div class="w-full h-auto flex flex-col items-start gap-3">
+                <div
+                  class="flex flex-row items-center justify-start gap-5 md:gap-4"
+                >
+                  <div>
+                    <i
+                      class="fa-brands fa-twitter text-gray-600 dark:text-gray-400 text-[1.3rem]"
+                    ></i>
+                  </div>
+                  <div
+                    class="text-gray-500 dark:text-gray-300 hover:text-black cursor-pointer dark:hover:text-white dark:cursor-pointer"
+                  >
+                    Twitter
+                  </div>
+                </div>
+                <div class="flex flex-row items-center justify-start gap-4">
+                  <div>
+                    <i
+                      class="fa-solid fa-building-user text-gray-600 dark:text-gray-400 text-[1.3rem]"
+                    ></i>
+                  </div>
+                  <div
+                    class="text-gray-500 dark:text-gray-300 hover:text-black cursor-pointer dark:hover:text-white dark:cursor-pointer"
+                  >
+                    Company
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <!-- Font Awesome CDN -->
+  <script
+    src="https://kit.fontawesome.com/fa1401bf67.js"
+    crossorigin="anonymous"
+  ></script>
+  <!-- GSAP CDN -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js"
+    integrity="sha512-7Au1ULjlT8PP1Ygs6mDZh9NuQD0A5prSrAUiPHMXpU6g3UMd8qesVnhug5X4RoDr35x5upNpx0A6Sisz1LSTXA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <!-- JavaScript External File Link -->
+  <script src="script.js"></script>
+</html>
